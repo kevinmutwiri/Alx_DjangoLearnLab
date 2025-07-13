@@ -1,6 +1,6 @@
 # Update Operation
 
-> [home](./README.md)
+> [home](../README.md)
 
 **Command**:
 
