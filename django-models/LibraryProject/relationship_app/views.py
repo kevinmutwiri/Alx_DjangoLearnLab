@@ -3,13 +3,14 @@ from django.views.generic import DetailView
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib import messages
 from django.urls import reverse_lazy
-from django.contrib.auth.decorators import user_passes_test, login_required, permission_required
+from django.contrib.auth.decorators import user_passes_test, login_required
+from django.contrib.auth.decorators import permission_required
 
 from .models import Book, Library, Author, UserProfile
 from .models import Library
 from django.views.generic.detail import DetailView
 
-from .forms import UserRegisterForm, BookForm # Updated import to include BookForm
+from .forms import UserRegisterForm, BookForm
 
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
