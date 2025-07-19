@@ -36,7 +36,8 @@ def register(request):
             login(request, user)
             username = form.cleaned_data.get('username')
             messages.success(request, f'Account created for {username}! You are now logged in.')
-            return redirect('book_list')
+            return redirect('list_books')
     else:
         form = UserRegisterForm()
+        _ = UserCreationForm() 
     return render(request, 'relationship_app/register.html', {'form': form})
