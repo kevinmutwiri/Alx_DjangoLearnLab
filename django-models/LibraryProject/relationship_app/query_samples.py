@@ -34,7 +34,8 @@ def run_queries():
     try:
         author_name = "George Orwell"
         specific_author = Author.objects.get(name=author_name)
-        books_by_author = specific_author.books.all()
+        # Modified line to use Book.objects.filter(author=specific_author)
+        books_by_author = Book.objects.filter(author=specific_author)
         if books_by_author:
             for book in books_by_author:
                 print(f"  - {book.title} by {book.author.name}")
