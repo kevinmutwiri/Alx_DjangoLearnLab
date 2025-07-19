@@ -12,7 +12,6 @@ def run_queries():
     """
     print("--- Running Sample Queries ---")
 
-    # --- Create some sample data (if not already present) ---
     print("\nCreating sample data...")
     author1, created = Author.objects.get_or_create(name="Jane Austen")
     author2, created = Author.objects.get_or_create(name="George Orwell")
@@ -25,7 +24,7 @@ def run_queries():
     library1, created = Library.objects.get_or_create(name="City Central Library")
     library2, created = Library.objects.get_or_create(name="Community Read Library")
 
-    if created: # Add books to libraries only if libraries were just created
+    if created:
         library1.books.add(book1, book2)
         library2.books.add(book3, book4)
 
@@ -34,11 +33,10 @@ def run_queries():
 
     print("Sample data created/ensured.")
 
-    # --- Query all books by a specific author ---
     print("\n--- Query: All books by a specific author (George Orwell) ---")
     try:
         specific_author = Author.objects.get(name="George Orwell")
-        books_by_author = specific_author.books.all() # Using the related_name 'books'
+        books_by_author = specific_author.books.all()
         if books_by_author:
             for book in books_by_author:
                 print(f"  - {book.title} by {book.author.name}")
@@ -47,10 +45,10 @@ def run_queries():
     except Author.DoesNotExist:
         print("  Author 'George Orwell' not found.")
 
-    # --- List all books in a library ---
     print("\n--- Query: All books in 'City Central Library' ---")
     try:
-        specific_library = Library.objects.get(name="City Central Library")
+        library_name = "City Central Library"
+        specific_library = Library.objects.get(name=library_name)
         books_in_library = specific_library.books.all()
         if books_in_library:
             for book in books_in_library:
@@ -58,17 +56,16 @@ def run_queries():
         else:
             print(f"  No books found in {specific_library.name}.")
     except Library.DoesNotExist:
-        print("  Library 'City Central Library' not found.")
+        print(f"  Library '{library_name}' not found.")
 
-    # --- Retrieve the librarian for a library ---
     print("\n--- Query: Librarian for 'Community Read Library' ---")
     try:
-        specific_library = Library.objects.get(name="Community Read Library")
-        # Accessing the librarian through the related_name 'librarian'
+        library_name = "Community Read Library"
+        specific_library = Library.objects.get(name=library_name)
         librarian_for_library = specific_library.librarian
         print(f"  The librarian for {specific_library.name} is {librarian_for_library.name}.")
     except Library.DoesNotExist:
-        print("  Library 'Community Read Library' not found.")
+        print(f"  Library '{library_name}' not found.")
     except Librarian.DoesNotExist:
         print(f"  No librarian found for {specific_library.name}.")
 
