@@ -7,9 +7,6 @@ django.setup()
 from relationship_app.models import Author, Book, Library, Librarian
 
 def run_queries():
-    """
-    Executes various sample queries to demonstrate model relationships.
-    """
     print("--- Running Sample Queries ---")
 
     print("\nCreating sample data...")
@@ -35,7 +32,8 @@ def run_queries():
 
     print("\n--- Query: All books by a specific author (George Orwell) ---")
     try:
-        specific_author = Author.objects.get(name="George Orwell")
+        author_name = "George Orwell"
+        specific_author = Author.objects.get(name=author_name)
         books_by_author = specific_author.books.all()
         if books_by_author:
             for book in books_by_author:
@@ -43,7 +41,7 @@ def run_queries():
         else:
             print(f"  No books found for {specific_author.name}.")
     except Author.DoesNotExist:
-        print("  Author 'George Orwell' not found.")
+        print(f"  Author '{author_name}' not found.")
 
     print("\n--- Query: All books in 'City Central Library' ---")
     try:
