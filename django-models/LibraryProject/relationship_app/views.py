@@ -5,12 +5,11 @@ from django.contrib import messages
 from django.urls import reverse_lazy
 
 from .models import Book, Library, Author
-from .models import Library # Redundant import for checker compatibility
-from django.views.generic.detail import DetailView # Redundant import for checker compatibility
+from .models import Library
+from django.views.generic.detail import DetailView
 
 from .forms import UserRegisterForm
 
-# Added these imports to satisfy the checker's requirements
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 
@@ -33,11 +32,11 @@ def register(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
         if form.is_valid():
-            user = form.save() # Save the user
-            login(request, user) # Log the user in immediately after registration
+            user = form.save()
+            login(request, user)
             username = form.cleaned_data.get('username')
             messages.success(request, f'Account created for {username}! You are now logged in.')
-            return redirect('book_list') # Redirect to book_list or another appropriate page
+            return redirect('book_list')
     else:
         form = UserRegisterForm()
     return render(request, 'relationship_app/register.html', {'form': form})
