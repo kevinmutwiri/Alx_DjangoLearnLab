@@ -60,7 +60,7 @@ def run_queries():
     try:
         library_name = "Community Read Library"
         specific_library = Library.objects.get(name=library_name)
-        librarian_for_library = specific_library.librarian
+        librarian_for_library = Librarian.objects.get(library=specific_library)
         print(f"  The librarian for {specific_library.name} is {librarian_for_library.name}.")
     except Library.DoesNotExist:
         print(f"  Library '{library_name}' not found.")
