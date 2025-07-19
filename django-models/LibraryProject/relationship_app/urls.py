@@ -1,7 +1,8 @@
 from django.urls import path
 from .views import list_books, LibraryDetailView
-from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.views import LoginView, LogoutView 
 from . import views
+
 
 urlpatterns = [
     path('books/', list_books, name='list_books'),
@@ -15,8 +16,8 @@ urlpatterns = [
     path('librarian_dashboard/', views.librarian_view, name='librarian_dashboard'),
     path('member_dashboard/', views.member_view, name='member_dashboard'),
 
-    # New URL patterns for book management with permissions
-    path('books/add/', views.add_book, name='add_book'),
-    path('books/<int:pk>/edit/', views.edit_book, name='edit_book'),
+    # New URL patterns for book management
+    path('books/add_book/', views.add_book, name='add_book'),
+    path('books/<int:pk>/edit_book/', views.edit_book, name='edit_book'),
     path('books/<int:pk>/delete/', views.delete_book, name='delete_book'),
 ]
