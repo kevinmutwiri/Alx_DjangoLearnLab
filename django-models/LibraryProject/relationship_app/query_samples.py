@@ -33,14 +33,13 @@ def run_queries():
     print("\n--- Query: All books by a specific author (George Orwell) ---")
     try:
         author_name = "George Orwell"
-        specific_author = Author.objects.get(name=author_name)
-        # Modified line to use Book.objects.filter(author=specific_author)
-        books_by_author = Book.objects.filter(author=specific_author)
+        author = Author.objects.get(name=author_name)
+        books_by_author = Book.objects.filter(author=author)
         if books_by_author:
             for book in books_by_author:
                 print(f"  - {book.title} by {book.author.name}")
         else:
-            print(f"  No books found for {specific_author.name}.")
+            print(f"  No books found for {author.name}.")
     except Author.DoesNotExist:
         print(f"  Author '{author_name}' not found.")
 
