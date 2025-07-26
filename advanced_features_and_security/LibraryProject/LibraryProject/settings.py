@@ -23,7 +23,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'bookshelf',
-    'csp', # Add django-csp for Content Security Policy
+    'csp', # Required for Content Security Policy
 ]
 
 MIDDLEWARE = [
@@ -34,7 +34,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'csp.middleware.CSPMiddleware', # Add CSP middleware
+    'csp.middleware.CSPMiddleware', # Add CSP middleware for Content Security Policy
 ]
 
 ROOT_URLCONF = 'advanced_features_and_security.urls'
@@ -97,32 +97,48 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Security Settings Enhancements:
+# --- HTTPS and Security Settings ---
 
-# Enforce that cookies are sent over HTTPS only.
-CSRF_COOKIE_SECURE = True
+# SECURE_SSL_REDIRECT: Redirects all non-HTTPS requests to HTTPS.
+# This should be True in production. Ensure your web server (e.g., Nginx, Apache)
+# is configured to serve HTTPS before enabling this.
+SECURE_SSL_REDIRECT = True
+
+# SECURE_HSTS_SECONDS: Enables HTTP Strict Transport Security (HSTS).
+# Forces browsers to interact with your site only over HTTPS for the specified duration (in seconds).
+# Set to a large value (e.g., 31536000 for 1 year) in production.
+SECURE_HSTS_SECONDS = 31536000
+
+# SECURE_HSTS_INCLUDE_SUBDOMAINS: Includes all subdomains in the HSTS policy.
+# Recommended to be True in production if all subdomains also support HTTPS.
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+
+# SECURE_HSTS_PRELOAD: Allows your domain to be preloaded into browsers' HSTS lists.
+# Only set to True after successfully deploying HSTS and meeting preload requirements.
+SECURE_HSTS_PRELOAD = True
+
+# SESSION_COOKIE_SECURE: Ensures that session cookies are only transmitted over HTTPS.
+# Prevents session hijacking over insecure connections.
 SESSION_COOKIE_SECURE = True
 
-# Prevent browsers from performing MIME sniffing.
-SECURE_CONTENT_TYPE_NOSNIFF = True
+# CSRF_COOKIE_SECURE: Ensures that CSRF cookies are only transmitted over HTTPS.
+# Protects against CSRF token leakage over insecure connections.
+CSRF_COOKIE_SECURE = True
 
-# Prevent pages from being embedded in iframes on other sites, protecting against clickjacking.
+# X_FRAME_OPTIONS: Prevents your site from being embedded in a frame on another site.
+# Protects against clickjacking attacks. 'DENY' is the most secure option.
 X_FRAME_OPTIONS = 'DENY'
 
-# Enable browser's XSS filter.
+# SECURE_CONTENT_TYPE_NOSNIFF: Prevents browsers from MIME-sniffing a response.
+# Helps prevent XSS attacks by ensuring browsers respect the Content-Type header.
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
+# SECURE_BROWSER_XSS_FILTER: Enables the browser's built-in XSS filter.
+# Provides an additional layer of defense against XSS attacks.
 SECURE_BROWSER_XSS_FILTER = True
 
-# Redirect all non-HTTPS requests to HTTPS. Requires your server to handle HTTPS.
-# SECURE_SSL_REDIRECT = True # Uncomment in production after setting up HTTPS
-
-# Enable HTTP Strict Transport Security (HSTS). Forces browsers to only interact with your site over HTTPS.
-# SECURE_HSTS_SECONDS = 31536000 # 1 year in seconds; uncomment in production after testing HTTPS
-# SECURE_HSTS_INCLUDE_SUBDOMAINS = True # Uncomment in production
-# SECURE_HSTS_PRELOAD = True # Uncomment in production
-
 # Content Security Policy (CSP) configuration using django-csp
-# This is a basic example. You should customize these directives based on your application's needs.
-# For more complex policies, consider using a more granular approach.
+# This is a robust defense against XSS. Customize these directives based on your application's needs.
 CSP_DEFAULT_SRC = ("'self'",)
 CSP_SCRIPT_SRC = ("'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net") # Example: allow inline scripts and CDN
 CSP_STYLE_SRC = ("'self'", "'unsafe-inline'", "https://cdn.jsdelivr.net") # Example: allow inline styles and CDN
