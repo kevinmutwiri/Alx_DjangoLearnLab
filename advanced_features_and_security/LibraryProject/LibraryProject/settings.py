@@ -137,6 +137,12 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 # Provides an additional layer of defense against XSS attacks.
 SECURE_BROWSER_XSS_FILTER = True
 
+# SECURE_PROXY_SSL_HEADER: A tuple representing a HTTP header and a required value.
+# If this header is present and matches the value, the request is considered secure (HTTPS).
+# This is essential when Django is behind a reverse proxy (e.g., Nginx, Apache) that handles SSL.
+# The proxy typically sets a header like 'X-Forwarded-Proto' to 'https'.
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 # Content Security Policy (CSP) configuration using django-csp
 # This is a robust defense against XSS. Customize these directives based on your application's needs.
 CSP_DEFAULT_SRC = ("'self'",)
