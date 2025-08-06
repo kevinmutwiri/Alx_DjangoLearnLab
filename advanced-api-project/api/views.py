@@ -4,6 +4,9 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticate
 from django_filters.rest_framework import DjangoFilterBackend
 from .models import Book
 from .serializers import BookSerializer
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
 
 # --------------------------
 # Generic Views for Book
@@ -78,3 +81,26 @@ class BookDeleteView(generics.DestroyAPIView):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     permission_classes = [IsAuthenticated]
+
+
+class InvalidUpdateRoute(APIView):
+    """
+    Placeholder view for invalid update route.
+    Returns a 400 Bad Request.
+    """
+    def get(self, request, *args, **kwargs):
+        return Response(
+            {"detail": "Invalid route for update."},
+            status=status.HTTP_400_BAD_REQUEST
+        )
+
+class InvalidDeleteRoute(APIView):
+    """
+    Placeholder view for invalid delete route.
+    Returns a 400 Bad Request.
+    """
+    def get(self, request, *args, **kwargs):
+        return Response(
+            {"detail": "Invalid route for delete."},
+            status=status.HTTP_400_BAD_REQUEST
+        )
